@@ -1,0 +1,34 @@
+{
+    "name": "MultiGamepad",
+    "maps": [
+        {
+            "name": "Player",
+            "id": "2850d165-059c-463c-9fbd-3b2b328214b3",
+            "actions": [
+                {
+                    "name": "PlayNote",
+                    "type": "Button",
+                    "id": "d4cc1568-ce95-45bc-9d89-3d232f1743d1",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "457affa3-8ce8-4760-bca1-d930abd742aa",
+                    "path": "<Gamepad>/buttonSouth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "PlayNote",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MoveTo : MonoBehaviour
 {
-    public Vector3 destination;
+    public Transform destination;
 
     public float speed = 1.0f;
     // Start is called before the first frame update
@@ -17,6 +17,6 @@ public class MoveTo : MonoBehaviour
     void Update()
     {
         transform.LookAt(destination);
-        transform.position += transform.forward * speed * Time.deltaTime;
+        transform.localPosition += transform.forward * speed * Time.deltaTime;
     }
 }

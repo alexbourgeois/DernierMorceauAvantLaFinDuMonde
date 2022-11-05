@@ -21,14 +21,14 @@ public class ZombieInteraction : MonoBehaviour
     {
     }
 
-    private void OnTriggerEnter(Collider collision)
+    private void OnTriggerEnter(Collider collider)
     {
-        if(collision.GetComponent<Collider>() == leftCollider || collision.GetComponent<Collider>() == rightCollider)
+        if(collider == leftCollider || collider == rightCollider)
         {
             canBeKilled = true;
         }
 
-        if(collision.GetComponent<Collider>() == Areas.instance.damageArea)
+        if(collider == Areas.instance.damageArea)
         {
             PlayerInfo.instance.LooseLife();
             Destroy(this.gameObject);

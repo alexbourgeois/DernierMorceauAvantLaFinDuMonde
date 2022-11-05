@@ -32,7 +32,7 @@ public class SpawnerV1 : MonoBehaviour
         var rnd = Random.Range(0, spawners.Count);
 
         zombie.transform.position = spawners[rnd].position;
-        zombie.GetComponent<MoveTo>().destination = spawners[rnd].parent.parent.parent.position;
+        zombie.GetComponent<MoveTo>().destination = spawners[rnd].parent.parent.parent;
         var interact = zombie.GetComponent<ZombieInteraction>();
         interact.trackIndex = rnd;
         interact.leftCollider = leftCollider;

@@ -11,7 +11,8 @@ public class PlayerV1 : MonoBehaviour
     private bool _initialized;
 
     public int actualPosIndex = 1;
-    public SpawnerV1 spawner;
+    public SpawnerV1 leftSpawner;
+    public SpawnerV1 rightSpawner;
     public Color playerColor;
     
     public GameObject token;
@@ -27,7 +28,8 @@ public class PlayerV1 : MonoBehaviour
         actualPosIndex = _playerInputManager.playerCount - 1;
         playerNumber = actualPosIndex;
         transform.position = PlayerInfo.instance.playerAnchors[actualPosIndex].transform.position;
-        spawner = PlayerInfo.instance.playerAnchors[actualPosIndex].GetComponentInChildren<SpawnerV1>();
+        leftSpawner = PlayerInfo.instance.playerAnchors[actualPosIndex].GetComponentsInChildren<SpawnerV1>()[0];
+        rightSpawner = PlayerInfo.instance.playerAnchors[actualPosIndex].GetComponentsInChildren<SpawnerV1>()[1];
 
         playerColor = PlayerInfo.instance.playerColors[actualPosIndex];
 
@@ -42,7 +44,7 @@ public class PlayerV1 : MonoBehaviour
     public void CreateToken()
     {
         token.transform.position = PlayerInfo.instance.tokenAnchors[actualPosIndex].position + Vector3.forward * 2.0f * playerNumber;
-        token.GetComponent<Renderer>().material.color = playerColor;
+        token.GetComponentInChildren<Renderer>().material.color = playerColor;
     }
 
 
@@ -58,15 +60,16 @@ public class PlayerV1 : MonoBehaviour
             return;
 
         ZombieInteraction zombToKill = null;
-        foreach (var zomb in spawner.zombies)
+        foreach (var zomb in leftSpawner.zombies)
         {
             if (zomb.canBeKilled && zomb.isLeft)
             {
                 zombToKill = zomb;
             }
         }
+
         if(zombToKill != null)
-            spawner.KillZombie(zombToKill);
+            leftSpawner.KillZombie(zombToKill);
 
         Debug.Log("[" + playerName + "] Play A");
     }
@@ -77,7 +80,7 @@ public class PlayerV1 : MonoBehaviour
             return;
 
         ZombieInteraction zombToKill = null;
-        foreach (var zomb in spawner.zombies)
+        foreach (var zomb in rightSpawner.zombies)
         {
             if (zomb.canBeKilled && !zomb.isLeft)
             {
@@ -85,12 +88,15 @@ public class PlayerV1 : MonoBehaviour
             }
         }
         if (zombToKill != null)
-            spawner.KillZombie(zombToKill);
+            rightSpawner.KillZombie(zombToKill);
         else
             Debug.LogWarning("No zombie !");
 
         Debug.Log("[" + playerName + "] Play B");
     }
+
+    public AnimationCurve tokenCurve;
+    public float tokenAnimDuration;
 
     public void OnMoveLeft()
     {
@@ -99,7 +105,10 @@ public class PlayerV1 : MonoBehaviour
 
         actualPosIndex--;
         actualPosIndex = Mathf.Clamp(actualPosIndex, 0, 2);
-        token.transform.position = PlayerInfo.instance.tokenAnchors[actualPosIndex].position + Vector3.forward * 2.0f * playerNumber;
+
+        StopAllCoroutines();
+        StartCoroutine(Tools.LerpAlongCurve(token.transform.position, PlayerInfo.instance.tokenAnchors[actualPosIndex].position + Vector3.forward * 2.0f * playerNumber, tokenCurve, tokenAnimDuration, (x) => token.transform.position = x, null, null, true));
+        //token.transform.position = PlayerInfo.instance.tokenAnchors[actualPosIndex].position + Vector3.forward * 2.0f * playerNumber;
 
         Debug.Log("[" + playerName + "] Move Left");
     }
@@ -111,7 +120,8 @@ public class PlayerV1 : MonoBehaviour
 
         actualPosIndex++;
         actualPosIndex = Mathf.Clamp(actualPosIndex, 0, 2);
-        token.transform.position = PlayerInfo.instance.tokenAnchors[actualPosIndex].position + Vector3.forward * 2.0f * playerNumber;
+        StopAllCoroutines();
+        StartCoroutine(Tools.LerpAlongCurve(token.transform.position, PlayerInfo.instance.tokenAnchors[actualPosIndex].position + Vector3.forward * 2.0f * playerNumber, tokenCurve, tokenAnimDuration, (x) => token.transform.position = x, null, null, true));
 
         Debug.Log("[" + playerName + "] Move Right");
     }

@@ -39,7 +39,7 @@ public class DoorManager : MonoBehaviour
 
         var marker = Instantiate(choiceMarkerPrefab);
         marker.transform.parent = doorHolder;
-        marker.transform.position = doorAnchors[1].position - Vector3.forward * 2.0f;
+        marker.transform.position = doorAnchors[1].position - Vector3.forward * 2.5f;
     }
 
     // Start is called before the first frame update
@@ -59,7 +59,7 @@ public class DoorManager : MonoBehaviour
             if (votedIndex >= 0)
             {
                 var destination = PlayerInfo.instance.tokenAnchors[votedIndex].position - Vector3.forward * 4.0f;
-                StartCoroutine(Tools.LerpAlongCurve(objectToMove.position, destination, objectToMoveCurve, movementDuration, (x) => objectToMove.position = x));
+                StartCoroutine(Tools.LerpAlongCurve(objectToMove.position, destination, objectToMoveCurve, movementDuration, (x) => objectToMove.position = x, null, null, true));
             }
     }
     // Update is called once per frame

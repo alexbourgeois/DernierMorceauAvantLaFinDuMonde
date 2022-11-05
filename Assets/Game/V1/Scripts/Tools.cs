@@ -22,7 +22,15 @@ public static class Tools
     }
 
     public static WaitForFixedUpdate waitForFixedUpdate = new WaitForFixedUpdate();
-
+    public static float EaseInOutBack(float t)
+    {
+        const float c1 = 1.70158f;
+        const float c2 = c1 * 1.525f;
+        float t2 = t - 1f;
+        return t < 0.5
+            ? t * t * 2 * ((c2 + 1) * t * 2 - c2)
+            : t2 * t2 * 2 * ((c2 + 1) * t2 * 2 + c2) + 1;
+    }
     public static IEnumerator DelayAction(float delay, Action callback = null)
     {
         if (delay <= 0.0f)
@@ -80,7 +88,7 @@ public static class Tools
         callback?.Invoke();
     }
 
-    public static IEnumerator LerpAlongCurve(Vector3 initialValue, Vector3 finalValue, AnimationCurve curve, float duration, Action<Vector3> target, Action<bool> animationIndicator = null, Action callback = null)
+    public static IEnumerator LerpAlongCurve(Vector3 initialValue, Vector3 finalValue, AnimationCurve curve, float duration, Action<Vector3> target, Action<bool> animationIndicator = null, Action callback = null, bool overshoot = false)
     {
         float currentTime = 0.0f;
         float startTime = Time.time;
@@ -89,7 +97,10 @@ public static class Tools
 
         while (currentTime / duration <= 1.0f)
         {
-            target(Vector3.Lerp(initialValue, finalValue, curve.Evaluate(currentTime / duration)));
+            if(overshoot)
+                target(Vector3.LerpUnclamped(initialValue, finalValue, EaseInOutBack(curve.Evaluate(currentTime / duration))));
+            else
+                target(Vector3.Lerp(initialValue, finalValue, curve.Evaluate(currentTime / duration)));
             currentTime += Time.deltaTime;
             yield return waitForFixedUpdate;
         }

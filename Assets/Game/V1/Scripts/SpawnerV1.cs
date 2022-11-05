@@ -11,6 +11,8 @@ public class SpawnerV1 : MonoBehaviour
     public List<ZombieInteraction> zombies = new List<ZombieInteraction>();
     public Transform zombieAnchor;
 
+    public bool useLeft;
+
     public Collider leftCollider;
     public Collider rightCollider;
     // Start is called before the first frame update
@@ -23,16 +25,24 @@ public class SpawnerV1 : MonoBehaviour
     public void KillZombie(ZombieInteraction zomb)
     {
         zombies.Remove(zomb);
-        Destroy(zomb.gameObject);
+        zomb.GetComponent<Renderer>().material.color = Color.blue;
+        StartCoroutine(Tools.DelayAction(0.25f, () => Destroy(zomb.gameObject)));
+        
     }
 
     public void SpawnZombie()
     {
         var zombie = Instantiate(prefab);
         var rnd = Random.Range(0, spawners.Count);
+        if (useLeft)
+            rnd = 0;
+        else
+            rnd = 1;
+        var spawner = spawners[rnd];
 
-        zombie.transform.position = spawners[rnd].position;
-        zombie.GetComponent<MoveTo>().destination = spawners[rnd].parent.parent.parent;
+        zombie.transform.position = spawner.position;
+        zombie.GetComponent<MoveTo>().destination = spawner.parent.parent.parent;
+
         var interact = zombie.GetComponent<ZombieInteraction>();
         interact.trackIndex = rnd;
         interact.leftCollider = leftCollider;

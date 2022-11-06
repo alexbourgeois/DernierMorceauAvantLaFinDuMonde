@@ -24,10 +24,15 @@ public class SpawnerV1 : MonoBehaviour
 
     public void KillZombie(ZombieInteraction zomb)
     {
-        zombies.Remove(zomb);
-        zomb.GetComponent<Renderer>().material.color = Color.blue;
-        StartCoroutine(Tools.DelayAction(0.25f, () => Destroy(zomb.gameObject)));
-        
+        if (zomb != null)
+        {
+            if (zombies.Contains(zomb)) { 
+                zomb.GetComponent<Renderer>().material.color = Color.blue;
+                zomb.isDead = true;
+                StartCoroutine(Tools.DelayAction(0.2f, () => Destroy(zomb.gameObject)));
+                zombies.Remove(zomb);
+             }
+        }
     }
 
     public void SpawnZombie()

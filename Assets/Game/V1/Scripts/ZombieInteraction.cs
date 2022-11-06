@@ -7,6 +7,7 @@ public class ZombieInteraction : MonoBehaviour
     public int trackIndex = -1;
     public bool isLeft = false;
     public bool canBeKilled = false;
+    public bool isDead = false;
     public Collider leftCollider;
     public Collider rightCollider;
 
@@ -28,7 +29,7 @@ public class ZombieInteraction : MonoBehaviour
             canBeKilled = true;
         }
 
-        if(collider == Areas.instance.damageArea)
+        if(collider == Areas.instance.damageArea && !isDead)
         {
             PlayerInfo.instance.LooseLife();
             Destroy(this.gameObject);

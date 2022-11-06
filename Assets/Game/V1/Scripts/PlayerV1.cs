@@ -60,11 +60,12 @@ public class PlayerV1 : MonoBehaviour
             return;
 
         ZombieInteraction zombToKill = null;
-        foreach (var zomb in leftSpawner.zombies)
+        foreach(var zomb in leftSpawner.zombies)
         {
             if (zomb.canBeKilled && zomb.isLeft)
             {
                 zombToKill = zomb;
+                break;
             }
         }
 
@@ -85,6 +86,7 @@ public class PlayerV1 : MonoBehaviour
             if (zomb.canBeKilled && !zomb.isLeft)
             {
                 zombToKill = zomb;
+                break;
             }
         }
         if (zombToKill != null)

@@ -15,9 +15,13 @@ public class KillZone : MonoBehaviour
         if (other.gameObject.tag == "ground")
         {
             Debug.Log("<color=yellow>hit</color>");
-           var myNewGround = Instantiate(Ground, originSpawn.transform.position, Quaternion.Euler(0,90,0));
+            var myNewGround = Instantiate(Ground, originSpawn.transform.position, Quaternion.Euler(0,90,0));
+            var originalScale = myNewGround.transform.localScale;
 
-            myNewGround.transform.parent = Parent.transform;
+            myNewGround.transform.SetParent(Parent.transform);
+            myNewGround.transform.localScale = originalScale;
+
+
             SpawnZone_01.GetComponent<SpawnRandomActor>().SpawnFood();
             SpawnZone_02.GetComponent<SpawnRandomActor>().SpawnFood();
         }

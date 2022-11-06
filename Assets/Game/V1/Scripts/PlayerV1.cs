@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -18,20 +19,24 @@ public class PlayerV1 : MonoBehaviour
     public GameObject token;
     public GameObject sphere;
 
+    public PlayerSounds playerData;
+    public AudioSource playerSound;
     // Start is called before the first frame update
     void Start()
     {
         _playerInputManager = FindObjectOfType<PlayerInputManager>();
-        playerName = "player " + _playerInputManager.playerCount;
-        Debug.Log("Creating " + playerName);
 
         actualPosIndex = _playerInputManager.playerCount - 1;
         playerNumber = actualPosIndex;
-        transform.position = PlayerInfo.instance.playerAnchors[actualPosIndex].transform.position;
+
+        playerData = PlayerInfo.instance.playerDatas[actualPosIndex];
+        playerName = PlayerInfo.instance.playerDatas[actualPosIndex].playerName;
+        playerColor = PlayerInfo.instance.playerDatas[actualPosIndex].playerColor;
+        Debug.Log("Creating " + playerName);
+
+        transform.position = PlayerInfo.instance.playerAnchors[actualPosIndex].transform.position + Vector3.up * 0.5f;
         leftSpawner = PlayerInfo.instance.playerAnchors[actualPosIndex].GetComponentsInChildren<SpawnerV1>()[0];
         rightSpawner = PlayerInfo.instance.playerAnchors[actualPosIndex].GetComponentsInChildren<SpawnerV1>()[1];
-
-        playerColor = PlayerInfo.instance.playerColors[actualPosIndex];
 
         sphere.GetComponent<Renderer>().material.color = playerColor;
 
@@ -69,8 +74,23 @@ public class PlayerV1 : MonoBehaviour
             }
         }
 
-        if(zombToKill != null)
+        if(zombToKill != null) { 
             leftSpawner.KillZombie(zombToKill);
+            if (!playerSound.isPlaying)
+            {
+                playerSound.clip = playerData.joyClips[Random.Range(0, playerData.joyClips.Count - 1)];
+                playerSound.Play();
+            }
+        }
+        else
+        {
+            Debug.LogWarning("No zombie !");
+            if (!playerSound.isPlaying)
+            {
+                playerSound.clip = playerData.frustrationClips[Random.Range(0, playerData.frustrationClips.Count - 1)];
+                playerSound.Play();
+            }
+        }
 
         Debug.Log("[" + playerName + "] Play A");
     }
@@ -90,11 +110,25 @@ public class PlayerV1 : MonoBehaviour
             }
         }
         if (zombToKill != null)
+        {
             rightSpawner.KillZombie(zombToKill);
+            if (!playerSound.isPlaying)
+            {
+                playerSound.clip = playerData.joyClips[Random.Range(0, playerData.joyClips.Count - 1)];
+                playerSound.Play();
+            }
+        }
         else
+        {
             Debug.LogWarning("No zombie !");
+            if (!playerSound.isPlaying)
+            {
+                playerSound.clip = playerData.frustrationClips[Random.Range(0, playerData.frustrationClips.Count - 1)];
+                playerSound.Play();
+            }
+        }
 
-        Debug.Log("[" + playerName + "] Play B");
+            Debug.Log("[" + playerName + "] Play B");
     }
 
     public AnimationCurve tokenCurve;
@@ -110,6 +144,12 @@ public class PlayerV1 : MonoBehaviour
 
         StopAllCoroutines();
         StartCoroutine(Tools.LerpAlongCurve(token.transform.position, PlayerInfo.instance.tokenAnchors[actualPosIndex].position + Vector3.forward * 2.0f * playerNumber, tokenCurve, tokenAnimDuration, (x) => token.transform.position = x, null, null, true));
+
+        if(!playerSound.isPlaying)
+        {
+            playerSound.clip = playerData.thinkingClips[Random.Range(0, playerData.thinkingClips.Count - 1)];
+            playerSound.Play();
+        }
         //token.transform.position = PlayerInfo.instance.tokenAnchors[actualPosIndex].position + Vector3.forward * 2.0f * playerNumber;
 
         Debug.Log("[" + playerName + "] Move Left");
@@ -124,6 +164,12 @@ public class PlayerV1 : MonoBehaviour
         actualPosIndex = Mathf.Clamp(actualPosIndex, 0, 2);
         StopAllCoroutines();
         StartCoroutine(Tools.LerpAlongCurve(token.transform.position, PlayerInfo.instance.tokenAnchors[actualPosIndex].position + Vector3.forward * 2.0f * playerNumber, tokenCurve, tokenAnimDuration, (x) => token.transform.position = x, null, null, true));
+
+        if (!playerSound.isPlaying)
+        {
+            playerSound.clip = playerData.thinkingClips[Random.Range(0, playerData.thinkingClips.Count - 1)];
+            playerSound.Play();
+        }
 
         Debug.Log("[" + playerName + "] Move Right");
     }

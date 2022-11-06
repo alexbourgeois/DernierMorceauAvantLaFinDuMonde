@@ -6,15 +6,6 @@
             "id": "b430b732-4f6d-4094-9781-738e6141c4f1",
             "actions": [
                 {
-                    "name": "PlayNote",
-                    "type": "Button",
-                    "id": "e33188b9-329d-40a7-913e-782d742c34ac",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
                     "name": "MoveLeft",
                     "type": "Button",
                     "id": "fdfe53c6-eb01-409f-be45-9bb62b2b3a78",
@@ -72,17 +63,6 @@
             "bindings": [
                 {
                     "name": "",
-                    "id": "1c1f6ba8-8cbd-4e3d-905c-946e0dc4f8eb",
-                    "path": "<Gamepad>/buttonSouth",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "PlayNote",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "a466ad5b-5e58-43bc-9dee-9979ee7463f6",
                     "path": "<Gamepad>/dpad/left",
                     "interactions": "",
@@ -105,6 +85,17 @@
                 },
                 {
                     "name": "",
+                    "id": "51ae3641-606d-433c-a1ce-9cc924b1aabb",
+                    "path": "<HID::Nacon GC100>/stick/left",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "MoveLeft",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "0884eeb7-fcd2-44aa-b905-83593665d102",
                     "path": "<Gamepad>/dpad/right",
                     "interactions": "",
@@ -118,6 +109,17 @@
                     "name": "",
                     "id": "e0f58ab5-9af1-43c0-9322-75dedba46cb4",
                     "path": "<Gamepad>/leftStick/right",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "MoveRight",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "3eedd2a7-fbaa-4a06-87c2-71179be6d408",
+                    "path": "<HID::Nacon GC100>/stick/right",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -193,6 +195,17 @@
                 },
                 {
                     "name": "",
+                    "id": "3a5a82fd-fb13-403c-a839-4d5925389475",
+                    "path": "<HID::Nacon GC100>/button7",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "PlayA",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "61a66d4e-d77a-4aa6-8683-e1b6f8a0275a",
                     "path": "<Gamepad>/buttonEast",
                     "interactions": "",
@@ -212,9 +225,42 @@
                     "action": "PlayB",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "557bc008-55b6-4aae-8a79-6872089d3030",
+                    "path": "<HID::Nacon GC100>/button8",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "PlayB",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         }
     ],
-    "controlSchemes": []
+    "controlSchemes": [
+        {
+            "name": "New control scheme",
+            "bindingGroup": "New control scheme",
+            "devices": [
+                {
+                    "devicePath": "<Gamepad>",
+                    "isOptional": true,
+                    "isOR": false
+                },
+                {
+                    "devicePath": "<Joystick>",
+                    "isOptional": true,
+                    "isOR": false
+                },
+                {
+                    "devicePath": "<HID>",
+                    "isOptional": true,
+                    "isOR": false
+                }
+            ]
+        }
+    ]
 }

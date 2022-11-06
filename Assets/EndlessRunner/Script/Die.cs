@@ -6,7 +6,7 @@ public class Die : MonoBehaviour
 {
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "KillZone")
+        if (other.gameObject.tag == "killzone")
         {
         //Debug.Log("<color=yellow>hit</color>");
         Destroy(gameObject);

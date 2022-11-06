@@ -12,11 +12,11 @@ public class PlayerInfo : MonoBehaviour
 
     public List<Transform> playerAnchors;
     public List<Transform> tokenAnchors;
+    public List<PlayerSounds> playerDatas;
 
     public int life = 10;
     public TMP_Text lifeTxt;
 
-    public List<Color> playerColors;
     public List<PlayerV1> players = new List<PlayerV1>();
 
     public Transform playerHolder;

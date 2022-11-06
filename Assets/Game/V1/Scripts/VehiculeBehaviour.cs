@@ -4,17 +4,6 @@ using UnityEngine;
 
 public class VehiculeBehaviour : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 
     private void OnTriggerEnter(Collider collision)
     {
@@ -26,6 +15,11 @@ public class VehiculeBehaviour : MonoBehaviour
         if (collision.GetComponent<Collider>().tag == "Choice")
         {
             DoorManager.instance.ComputeChoice();
+        }
+
+        if (collision.GetComponent<Collider>().tag == "ScoreUp")
+        {
+            PlayerInfo.instance.WinLife(10);
         }
     }
 }

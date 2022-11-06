@@ -74,8 +74,8 @@ public class PlayerV1 : MonoBehaviour
             }
         }
 
-        if(zombToKill != null) { 
-            leftSpawner.KillZombie(zombToKill);
+        if(zombToKill != null) {
+            leftSpawner.KillZombie(zombToKill, 0.2f, this);
             if (!playerSound.isPlaying)
             {
                 playerSound.clip = playerData.joyClips[Random.Range(0, playerData.joyClips.Count - 1)];
@@ -85,6 +85,7 @@ public class PlayerV1 : MonoBehaviour
         else
         {
             Debug.LogWarning("No zombie !");
+            PlayerInfo.instance.LooseLife();
             if (!playerSound.isPlaying)
             {
                 playerSound.clip = playerData.frustrationClips[Random.Range(0, playerData.frustrationClips.Count - 1)];
@@ -111,7 +112,7 @@ public class PlayerV1 : MonoBehaviour
         }
         if (zombToKill != null)
         {
-            rightSpawner.KillZombie(zombToKill);
+            rightSpawner.KillZombie(zombToKill, 0.2f, this);
             if (!playerSound.isPlaying)
             {
                 playerSound.clip = playerData.joyClips[Random.Range(0, playerData.joyClips.Count - 1)];
@@ -120,6 +121,7 @@ public class PlayerV1 : MonoBehaviour
         }
         else
         {
+            PlayerInfo.instance.LooseLife();
             Debug.LogWarning("No zombie !");
             if (!playerSound.isPlaying)
             {

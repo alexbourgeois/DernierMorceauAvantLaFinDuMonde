@@ -7,6 +7,7 @@ public class DoorManager : MonoBehaviour
 {
     public static DoorManager instance;
     public GameObject doorPrefab;
+    public GameObject scorePrefab;
     public GameObject choiceMarkerPrefab;
 
     public Transform doorHolder;
@@ -30,7 +31,12 @@ public class DoorManager : MonoBehaviour
         for(int i = 0; i < nbChoices; i++)
         {
             if (i == rnd)
+            {
+                var newScore = Instantiate(scorePrefab);
+                newScore.transform.position = doorAnchors[i].position;
+                newScore.transform.parent = doorHolder;
                 continue;
+            }
 
             var newDoor = Instantiate(doorPrefab);
             newDoor.transform.position = doorAnchors[i].position;
@@ -58,7 +64,7 @@ public class DoorManager : MonoBehaviour
             var votedIndex = PlayerInfo.instance.GetVoteCountIndex();
             if (votedIndex >= 0)
             {
-                var destination = PlayerInfo.instance.tokenAnchors[votedIndex].position - Vector3.forward * 4.0f;
+                var destination = (PlayerInfo.instance.tokenAnchors[votedIndex].position-Vector3.forward * 2.0f) - Vector3.forward * 4.0f;
                 StartCoroutine(Tools.LerpAlongCurve(objectToMove.position, destination, objectToMoveCurve, movementDuration, (x) => objectToMove.position = x, null, null, true));
             }
     }

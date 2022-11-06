@@ -99,4 +99,16 @@ public class PlayerInfo : MonoBehaviour
         life--;
         lifeTxt.text = life.ToString();
     }
+
+    public void WinLife(int count)
+    {
+        life += count;
+        lifeTxt.text = life.ToString();
+    }
+
+    public void WinLife()
+    {
+        life++;
+        lifeTxt.text = life.ToString();
+    }
 }

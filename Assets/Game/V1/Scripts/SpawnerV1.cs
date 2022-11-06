@@ -17,7 +17,7 @@ public class SpawnerV1 : MonoBehaviour
     public Collider rightCollider;
 
 
-    public void KillZombie(ZombieInteraction zomb, float delay = 0.2f)
+    public void KillZombie(ZombieInteraction zomb, float delay = 0.2f, PlayerV1 player = null)
     {
         if (zomb != null)
         {
@@ -25,8 +25,20 @@ public class SpawnerV1 : MonoBehaviour
                 if(delay > 0.0f)
                 {
                     AudioManager.instance.PlayZombieDeathSound();
+                    PlayerInfo.instance.WinLife();
                 }
-                zomb.GetComponentInChildren<Renderer>().material.color = Color.blue;
+
+                
+                var zombMaterials = zomb.GetComponentInChildren<Renderer>().materials;
+                foreach (var mat in zombMaterials)
+                {
+                    var col = Color.white;
+                    if (player != null)
+                        col = player.playerColor;
+
+                    mat.SetColor("_EmissionColor", col * 2.0f);// = Color.blue;
+                }
+
                 zomb.isDead = true;
                 StartCoroutine(Tools.DelayAction(delay, () => Destroy(zomb.gameObject)));
                 zombies.Remove(zomb);

@@ -15,21 +15,20 @@ public class SpawnerV1 : MonoBehaviour
 
     public Collider leftCollider;
     public Collider rightCollider;
-    // Start is called before the first frame update
-    void Awake()
-    {
 
-      //  instance = this;
-    }
 
-    public void KillZombie(ZombieInteraction zomb)
+    public void KillZombie(ZombieInteraction zomb, float delay = 0.2f)
     {
         if (zomb != null)
         {
             if (zombies.Contains(zomb)) { 
-                zomb.GetComponent<Renderer>().material.color = Color.blue;
+                if(delay > 0.0f)
+                {
+                    AudioManager.instance.PlayZombieDeathSound();
+                }
+                zomb.GetComponentInChildren<Renderer>().material.color = Color.blue;
                 zomb.isDead = true;
-                StartCoroutine(Tools.DelayAction(0.2f, () => Destroy(zomb.gameObject)));
+                StartCoroutine(Tools.DelayAction(delay, () => Destroy(zomb.gameObject)));
                 zombies.Remove(zomb);
              }
         }
@@ -53,7 +52,8 @@ public class SpawnerV1 : MonoBehaviour
         interact.leftCollider = leftCollider;
         interact.rightCollider = rightCollider;
         interact.isLeft = rnd == 0 ? true : false;
-
+        interact.spawner = this;
+            
         zombie.transform.parent = zombieAnchor;
 
         zombies.Add(interact);

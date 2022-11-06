@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EndlessTerrain : MonoBehaviour
 {
-    public float moveSpeed = 3;
+    public float moveSpeed = 10;
     public GameObject targetObject;
     public GameObject Killzone;
    /* public GameObject SpawnZone01;

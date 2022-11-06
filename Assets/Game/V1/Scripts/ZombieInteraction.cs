@@ -8,20 +8,24 @@ public class ZombieInteraction : MonoBehaviour
     public bool isLeft = false;
     public bool canBeKilled = false;
     public bool isDead = false;
+    public SpawnerV1 spawner;
     public Collider leftCollider;
     public Collider rightCollider;
 
-    // Start is called before the first frame update
-    void Start()
+    public float soundProba = 0.1f;
+    public float soundDelay = 1.0f;
+    private float _previousTime;
+    private void Update()
     {
-        
-    }
+        if(Time.time - _previousTime >= soundDelay)
+        {
+            _previousTime = Time.time;
+            var rnd = Random.Range(0.0f, 1.0f);
+            if(rnd <= soundProba)
+                AudioManager.instance.PlayZombieLifeSound();
+        }
 
-    // Update is called once per frame
-    void Update()
-    {
     }
-
     private void OnTriggerEnter(Collider collider)
     {
         if(collider == leftCollider || collider == rightCollider)
@@ -32,7 +36,7 @@ public class ZombieInteraction : MonoBehaviour
         if(collider == Areas.instance.damageArea && !isDead)
         {
             PlayerInfo.instance.LooseLife();
-            Destroy(this.gameObject);
+            spawner.KillZombie(this, 0.0f);
         }
     }
 

@@ -19,7 +19,9 @@ public class KillZone : MonoBehaviour
 
             var myNewGround = Instantiate(Ground, originSpawn.transform.position, Quaternion.Euler(0, 90, 0));
 
-            myNewGround.transform.parent = Parent.transform;
+            var oldScale = myNewGround.transform.localScale;
+            myNewGround.transform.SetParent(Parent.transform);
+            myNewGround.transform.localScale = oldScale;
             for (int i = 0; i < numProps; i++)
             {
                 SpawnZone_01.GetComponent<SpawnRandomActor>().SpawnFood();

@@ -24,11 +24,14 @@ public class DoorManager : MonoBehaviour
     {
         instance = this;
     }
-
+    private int _previousRnd = 0;
     public void GenerateDoors()
     {
         var rnd = Random.Range(0, nbChoices);
-        for(int i = 0; i < nbChoices; i++)
+        if(rnd == _previousRnd)
+            rnd = Random.Range(0, nbChoices);
+
+        for (int i = 0; i < nbChoices; i++)
         {
             if (i == rnd)
             {
@@ -46,6 +49,7 @@ public class DoorManager : MonoBehaviour
         var marker = Instantiate(choiceMarkerPrefab);
         marker.transform.parent = doorHolder;
         marker.transform.position = doorAnchors[1].position - Vector3.forward * 2.5f;
+        _previousRnd = rnd;
     }
 
     // Start is called before the first frame update

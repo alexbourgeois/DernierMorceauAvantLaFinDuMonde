@@ -16,6 +16,8 @@ public class SpawnerV1 : MonoBehaviour
     public Collider leftCollider;
     public Collider rightCollider;
 
+    public GameObject boneRightPrefab;
+    public GameObject boneLeftPrefab;
 
     public void KillZombie(ZombieInteraction zomb, float delay = 0.2f, PlayerV1 player = null)
     {
@@ -38,7 +40,14 @@ public class SpawnerV1 : MonoBehaviour
 
                     mat.SetColor("_EmissionColor", col * 2.0f);// = Color.blue;
                 }
+                GameObject fx = zomb.gameObject;
+                if (useLeft)
+                    fx = Instantiate(boneLeftPrefab);
+                else
+                    fx = Instantiate(boneRightPrefab);
 
+                fx.transform.position = zomb.transform.position;
+                StartCoroutine(Tools.DelayAction(3.0f, () => Destroy(fx.gameObject)));
                 zomb.isDead = true;
                 StartCoroutine(Tools.DelayAction(delay, () => Destroy(zomb.gameObject)));
                 zombies.Remove(zomb);

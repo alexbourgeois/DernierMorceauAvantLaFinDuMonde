@@ -15,7 +15,7 @@ public class KillZone : MonoBehaviour
 
         if (other.gameObject.tag == "ground")
         {
-            Debug.Log("<color=yellow>hit</color>");
+            //Debug.Log("<color=yellow>hit</color>");
 
             var myNewGround = Instantiate(Ground, originSpawn.transform.position, Quaternion.Euler(0, 90, 0));
 

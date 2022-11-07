@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Playables;
 
 public class PlayerInfo : MonoBehaviour
 {
@@ -18,8 +19,12 @@ public class PlayerInfo : MonoBehaviour
     public TMP_Text lifeTxt;
 
     public List<PlayerV1> players = new List<PlayerV1>();
+    public List<GameObject> audioTracks = new List<GameObject>();
 
     public Transform playerHolder;
+
+    public bool gamePaused = false;
+
     private void Awake()
     {
         instance = this;
@@ -28,7 +33,8 @@ public class PlayerInfo : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        foreach (var track in audioTracks)
+            track.SetActive(false);
     }
 
     // Update is called once per frame
@@ -43,9 +49,28 @@ public class PlayerInfo : MonoBehaviour
         players.Add(player);
         onPlayerCreated?.Invoke();
 
+        audioTracks[players.Count - 1].SetActive(true);
+        var director = audioTracks[players.Count - 1].GetComponentInChildren<PlayableDirector>();
+        director.Stop();
+        director.time = Time.time;
+        director.Play();
 
     }
 
+    public void TogglePause()
+    {
+        if(gamePaused)
+        {
+            gamePaused = false;
+            Time.timeScale = 0.0f;
+        }
+        else
+        {
+            gamePaused = true;
+            Time.timeScale = 1.0f;
+        }
+
+    }
     public int GetVoteCountIndex()
     {
         var index = -1;

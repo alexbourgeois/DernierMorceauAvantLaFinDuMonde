@@ -133,6 +133,12 @@ public class PlayerV1 : MonoBehaviour
             Debug.Log("[" + playerName + "] Play B");
     }
 
+    public void OnPause()
+    {
+        PlayerInfo.instance.TogglePause();
+        Debug.Log("[" + playerName + "] Pause");
+    }
+
     public AnimationCurve tokenCurve;
     public float tokenAnimDuration;
 
